@@ -1,13 +1,12 @@
-# Fillout_Take_home_Yue
+# React + Vite
 
-This is the take-home assessment for **Fillout**.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-It implements the following features:
+Currently, two official plugins are available:
 
-- ✅ Show a **series of form pages** (e.g. “Info”, “Details”, “Other”, “Ending”)
-- ✅ Support **drag-to-reorder** form pages
-- ✅ Support **adding a new page** between any two existing pages via a **"+" button** that appears on hover
-- ✅ Each page supports a **context menu** (rename, duplicate, delete — buttons are non-functional)
-- ✅ **Highlight the active page** and allow selecting other pages
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-All application state is maintained **in-memory** — no backend is used.
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

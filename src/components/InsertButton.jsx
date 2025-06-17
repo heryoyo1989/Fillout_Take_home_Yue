@@ -3,7 +3,7 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 function InsertButton({ onClick }) {
   return (
     <div className="relative group">
-      <div className="w-10 border-t-2 border-dashed border-gray-400 mx-2" />
+      <div className="w-8 border-t-2 border-dashed border-gray-400 mx-1" />
       <button
         onClick={onClick}
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2

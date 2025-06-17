@@ -1,21 +1,33 @@
 import PageButton from "./PageButton";
-import {
-  ExclamationCircleIcon,
-  DocumentIcon,
-  CheckCircleIcon,
-} from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { nanoid } from 'nanoid';
 import InsertButton from "./InsertButton";
+import AddPageButton from "./AddPageButton";
+import AddPageModal from "./AddPageModal";
+
+const initialPages = [
+    { id: nanoid(), title: 'Info', icon: 'info' },
+    { id: nanoid(), title: 'Details', icon: 'detail' },
+    { id: nanoid(), title: 'Other', icon: 'other' },
+    { id: nanoid(), title: 'Ending', icon: 'ending' }
+  ]
 
 export default function PageList() {
+  const [pages, setPages] = useState(initialPages)
   const [activeIndex, setActiveIndex] = useState(0);
+  const [showModalAt, setShowModalAt] = useState(null);
 
-  const pages = [
-    { title: "Info", icon: <ExclamationCircleIcon /> },
-    { title: "Details", icon: <DocumentIcon /> },
-    { title: "Other", icon: <DocumentIcon /> },
-    { title: "Ending", icon: <CheckCircleIcon /> },
-  ];
+  const handleAddPage = ({ title, icon }) => {
+    const newPage = {
+        id: nanoid(),
+        title,
+        icon,
+    }
+    const newPages = [...pages]
+    newPages.splice(showModalAt + 1, 0, newPage)
+    setPages(newPages)
+    setShowModalAt(null)
+  }
 
   return (
     <div className="flex w-64 p-4">
@@ -28,9 +40,15 @@ export default function PageList() {
             isActive={idx === activeIndex}
             onClick={() => setActiveIndex(idx)}
           />
-          {idx < pages.length - 1 && <InsertButton onClick={() => console.log('insert after', idx)} />}
+          <InsertButton onClick={() => setShowModalAt(idx)} />
         </div>
       ))}
+      <AddPageButton onClick={() => setShowModalAt(pages.length - 1) } />
+      <AddPageModal 
+        isOpen={showModalAt !== null}
+        onClose={() => setShowModalAt(null)}
+        onConfirm={handleAddPage}
+      />
     </div>
   );
 }

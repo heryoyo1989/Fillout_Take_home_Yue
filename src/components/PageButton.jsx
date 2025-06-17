@@ -1,5 +1,12 @@
-import { EllipsisVerticalIcon } from '@heroicons/react/24/solid'
+import { EllipsisVerticalIcon, ExclamationCircleIcon, DocumentIcon, CheckCircleIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
+
+const ICON_MAP = {
+  info: <ExclamationCircleIcon className="w-5 h-5" />,
+  detail: <DocumentIcon className="w-5 h-5" />,
+  other: <DocumentIcon className="w-5 h-5" />,
+  ending: <CheckCircleIcon className="w-5 h-5" />,
+}
 
 export default function PageButton({ title, icon, isActive, onClick }) {
   const [isFocused, setIsFocused] = useState(false)
@@ -20,7 +27,7 @@ export default function PageButton({ title, icon, isActive, onClick }) {
       className={`${baseStyle} ${stateStyle} ${focusRing}`}
     >
       <div className="flex items-center">
-        <div className="w-5 h-5 text-white-500 mr-2 shrink-0">{icon}</div>
+        <div className="w-5 h-5 text-white-500 mr-2 shrink-0">{ICON_MAP[icon]}</div>
         <span className="truncate">{title}</span>
       </div>
       {isActive && (

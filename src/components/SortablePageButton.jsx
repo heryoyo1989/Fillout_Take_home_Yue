@@ -14,7 +14,7 @@ import {
   import { CSS } from '@dnd-kit/utilities'
 import PageButton from './PageButton'
   
-  function SortablePageButton({ page, activePageId, onSelect }) {
+  function SortablePageButton({ page, isActive, onSelect, onMenuClick }) {
     const {
       attributes,
       listeners,
@@ -29,11 +29,15 @@ import PageButton from './PageButton'
     }
   
     return (
-      <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      <div ref={setNodeRef} style={style}>
         <PageButton
           page={page}
-          isActive={page.id === activePageId}
-          onClick={() => onSelect(page.id)}
+          isActive={isActive}
+          onClick={() => {
+            onSelect(page.id);
+          }}
+          onMenuClick={(e) => onMenuClick(e)}
+          dragHandleProps={{ ...attributes, ...listeners }}
         />
       </div>
     )

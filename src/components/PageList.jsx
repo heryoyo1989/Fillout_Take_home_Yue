@@ -19,6 +19,7 @@ import {
     verticalListSortingStrategy,
   } from '@dnd-kit/sortable'
 import SortablePageButton from "./SortablePageButton";
+import PageContextMenu from "./SettingMenu";
 
 const initialPages = [
     { id: nanoid(), title: 'Info', icon: 'info' },
@@ -29,8 +30,9 @@ const initialPages = [
 
 export default function PageList() {
   const [pages, setPages] = useState(initialPages)
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(initialPages[0].id);
   const [showModalAt, setShowModalAt] = useState(null);
+  const [contextMenuInfo, setContextMenuInfo] = useState({ open: false, x: 0, y: 0, pageId: null });
 
   const handleAddPage = ({ title, icon }) => {
     const newPage = {
@@ -57,6 +59,22 @@ export default function PageList() {
     }
   }
 
+  const handleMenuClick = (e, pageId) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    console.log(e.currentTarget, rect);
+    
+    setContextMenuInfo({
+      open: true,
+      x: rect.left - 100,
+      y: rect.top - 260, // 提高一点点
+      pageId,
+    });
+  };
+  
+  const closeContextMenu = () => {
+    setContextMenuInfo({ ...contextMenuInfo, open: false });
+  };
+
   return (
     <div className="flex w-64 p-4">
      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -66,7 +84,10 @@ export default function PageList() {
               <SortablePageButton
                 page={page}
                 isActive={page.id === activeIndex}
-                onSelect={() => setActiveIndex(index)}
+                onSelect={(id) => {
+                    setActiveIndex(id)
+                }}
+                onMenuClick={(e) => handleMenuClick(e, page.id)}
               />
               
               <InsertButton onClick={() => setShowModalAt(index)} />
@@ -75,25 +96,18 @@ export default function PageList() {
           ))}
         </SortableContext>
       </DndContext>
-
-      {/* pages.map((page, idx) => (
-        <div key={idx} className="flex items-center">
-          <PageButton
-            key={idx}
-            title={page.title}
-            icon={page.icon}
-            isActive={idx === activeIndex}
-            onClick={() => setActiveIndex(idx)}
-          />
-          <InsertButton onClick={() => setShowModalAt(idx)} />
-        </div>
-      )) */}
       <AddPageButton onClick={() => setShowModalAt(pages.length - 1) } />
       <AddPageModal 
         isOpen={showModalAt !== null}
         onClose={() => setShowModalAt(null)}
         onConfirm={handleAddPage}
       />
+      {contextMenuInfo.open && (
+        <PageContextMenu
+            style={{ position: 'absolute', left: contextMenuInfo.x, top: contextMenuInfo.y }}
+            onClose={closeContextMenu}
+        />
+      )}
     </div>
   );
 }

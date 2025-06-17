@@ -8,7 +8,7 @@ const ICON_MAP = {
   ending: <CheckCircleIcon className="w-5 h-5" />,
 }
 
-export default function PageButton({ title, icon, isActive, onClick }) {
+export default function PageButton({ page, isActive, onClick }) {
   const [isFocused, setIsFocused] = useState(false)
 
   const baseStyle = `flex items-center justify-between w-full px-4 py-2 rounded-lg border text-sm font-medium transition-colors duration-150`
@@ -27,8 +27,8 @@ export default function PageButton({ title, icon, isActive, onClick }) {
       className={`${baseStyle} ${stateStyle} ${focusRing}`}
     >
       <div className="flex items-center">
-        <div className="w-5 h-5 text-white-500 mr-2 shrink-0">{ICON_MAP[icon]}</div>
-        <span className="truncate">{title}</span>
+        <div className="w-5 h-5 text-white-500 mr-2 shrink-0">{ICON_MAP[page.icon]}</div>
+        <span className="truncate">{page.title}</span>
       </div>
       {isActive && (
         <EllipsisVerticalIcon className="w-5 h-5 text-gray-400 ml-2" />
